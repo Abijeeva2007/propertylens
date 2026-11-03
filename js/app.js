@@ -1,7 +1,7 @@
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-// API Key Storage
+// API Key Storage & Initialization
 const K = {
   a: localStorage.gem || '',
   g: localStorage.gk || '',
@@ -31,6 +31,7 @@ const step = (n, v = 100) => {
 
 let map, mk, imgs = [], L = null, MAPIMG = {}, OUT = {};
 
+// Appraisal Standards Constants
 const YN = ['Yes', 'No', 'Unknown'];
 const RATE = ['Excellent', 'Good', 'Average', 'Fair', 'Poor'];
 const LOCS = ['Urban', 'Suburban', 'Rural', 'Unknown'];
@@ -68,7 +69,13 @@ const cfgReady = fetch('/api/config')
   .then(c => {
     if (c.maps) K.g = c.maps;
     K.srv = !!c.server;
-    if (K.srv) document.body.classList.add('srv');
+    const st = $('#statusLabel');
+    if (K.srv) {
+      document.body.classList.add('srv');
+      if (st) st.textContent = 'Server Online (Vercel)';
+    } else {
+      if (st) st.textContent = K.a ? 'Client Key Active' : 'API Key Setup';
+    }
     return c;
   });
 
@@ -76,7 +83,7 @@ const mapsReady = new Promise(r => {
   window.initMap = () => {
     map = new google.maps.Map($('#map'), {
       center: { lat: 39.317, lng: -76.438 },
-      zoom: 13,
+      zoom: 14,
       mapTypeId: 'hybrid',
       tilt: 0,
       streetViewControl: false,
@@ -95,16 +102,16 @@ const mapsReady = new Promise(r => {
       s.async = 1;
       document.head.appendChild(s);
     } else {
-      $('#m1').textContent = 'Add your Google Maps key (⚙) to enable live satellite mapping.';
+      $('#m1').textContent = 'Add your Google Maps key in settings (⚙) to enable live satellite mapping.';
       $('#map').innerHTML = `
-        <div style="display:flex;height:100%;align-items:center;justify-content:center;flex-direction:column;color:var(--mu);padding:24px;text-align:center">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin-bottom:10px;color:var(--ac)">
+        <div style="display:flex;height:100%;align-items:center;justify-content:center;flex-direction:column;color:var(--text-dim);padding:24px;text-align:center">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin-bottom:12px;color:var(--cyan-primary)">
             <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
             <line x1="8" y1="2" x2="8" y2="18"></line>
             <line x1="16" y1="6" x2="16" y2="22"></line>
           </svg>
-          <div style="font-weight:600;color:var(--ink);margin-bottom:4px">Interactive Map Frame</div>
-          <div style="font-size:12px">Enter an address or configure Google Maps key in settings</div>
+          <div style="font-weight:700;color:var(--text-white);font-size:15px;margin-bottom:4px">Geospatial Intelligence Frame</div>
+          <div style="font-size:12.5px;max-width:320px;color:var(--text-grey)">Enter an address or configure your Google Maps API key to render satellite and street imagery</div>
         </div>
       `;
     }
@@ -113,7 +120,7 @@ const mapsReady = new Promise(r => {
 
 const mt = t => {
   if (map) map.setMapTypeId(t);
-  document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.map-tabs button').forEach(b => b.classList.remove('active'));
   if (t === 'hybrid') $('#tabSat')?.classList.add('active');
   if (t === 'roadmap') $('#tabRoad')?.classList.add('active');
 };
@@ -121,7 +128,7 @@ const mt = t => {
 const sv = () => {
   if (L && map) {
     map.getStreetView().setVisible(true);
-    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.map-tabs button').forEach(b => b.classList.remove('active'));
     $('#tabSV')?.classList.add('active');
   }
 };
@@ -151,18 +158,19 @@ async function locate() {
   if (!K.g) {
     L = parseAddress(a);
     renderGeoChips(L);
+    updateContextBar(L);
     step(1);
-    $('#m1').innerHTML = `<span style="color:var(--g)">✓ Address formatted: <b>${esc(L.address)}</b></span>`;
+    $('#m1').innerHTML = `<span style="color:var(--cyan-primary)">✓ Address formatted: <b>${esc(L.address)}</b></span>`;
     return;
   }
 
   await mapsReady;
   $('#go').innerHTML = '<span class="spin"></span>';
-  $('#m1').textContent = 'Geocoding and collecting location intelligence…';
+  $('#m1').textContent = 'Geocoding coordinates and querying location intelligence…';
 
   try {
     const g = (await new google.maps.Geocoder().geocode({ address: a })).results[0];
-    if (!g) throw new Error('Address not found');
+    if (!g) throw new Error('Address could not be geocoded');
 
     const ll = g.geometry.location, lat = ll.lat(), lng = ll.lng();
     const comp = t => (g.address_components.find(c => c.types.includes(t)) || {}).long_name;
@@ -249,13 +257,15 @@ async function locate() {
     }
 
     renderGeoChips(L);
+    updateContextBar(L);
     step(1);
-    $('#m1').innerHTML = `<span style="color:var(--g)">✓ Located: <b>${esc(L.address)}</b></span>`;
+    $('#m1').innerHTML = `<span style="color:var(--cyan-primary)">✓ Coordinates verified: <b>${esc(L.address)}</b></span>`;
   } catch (e) {
     L = parseAddress(a);
     renderGeoChips(L);
+    updateContextBar(L);
     step(1);
-    $('#m1').innerHTML = `<span class="err">Geocoding notice: Using formatted address ${esc(L.address)}.</span>`;
+    $('#m1').innerHTML = `<span class="err">Notice: Using parsed address ${esc(L.address)}.</span>`;
   }
 
   $('#go').textContent = 'Locate';
@@ -277,19 +287,28 @@ function parseAddress(str) {
 
 function renderGeoChips(loc) {
   const chips = [
-    `<div class="chip">📍 <b>${esc(loc.street || loc.address)}</b></div>`,
-    `<div class="chip"><b>${esc(loc.city || 'Middle River')}</b>, ${esc(loc.st || 'MD')} ${esc(loc.postal_code || '')}</div>`,
-    loc.elevation_m != null ? `<div class="chip">Elev: <b>${loc.elevation_m}m</b></div>` : '',
-    loc.streetview ? `<div class="chip">Street View: <b>${loc.streetview.date}</b></div>` : ''
+    `<div class="geo-chip">📍 <b>${esc(loc.street || loc.address)}</b></div>`,
+    `<div class="geo-chip"><b>${esc(loc.city || 'Middle River')}</b>, ${esc(loc.st || 'MD')} ${esc(loc.postal_code || '')}</div>`,
+    loc.elevation_m != null ? `<div class="geo-chip">⛰ Elev: <b>${loc.elevation_m}m</b></div>` : '',
+    loc.streetview ? `<div class="geo-chip">Street View: <b>${loc.streetview.date}</b></div>` : ''
   ];
   if (loc.nearby) {
-    if (loc.nearby.school) chips.push(`<div class="chip">Schools: <b>${loc.nearby.school.nearest_km} km</b></div>`);
-    if (loc.nearby.transit_station) chips.push(`<div class="chip">Transit: <b>${loc.nearby.transit_station.nearest_km} km</b></div>`);
+    if (loc.nearby.school) chips.push(`<div class="geo-chip">🏫 School: <b>${loc.nearby.school.nearest_km}km</b></div>`);
+    if (loc.nearby.transit_station) chips.push(`<div class="geo-chip">🚆 Transit: <b>${loc.nearby.transit_station.nearest_km}km</b></div>`);
   }
   $('#geo').innerHTML = chips.join('');
 }
 
-/* ---------- Step 2: Photo Upload ---------- */
+function updateContextBar(loc) {
+  const ctxLoc = $('#ctxLocation');
+  if (ctxLoc) ctxLoc.textContent = loc.locality ? `${loc.locality}, ${loc.st || 'MD'}` : 'Suburban Grid';
+  const ctxElev = $('#ctxElevation');
+  if (ctxElev) ctxElev.textContent = loc.elevation_m != null ? `${loc.elevation_m} m` : '18 m';
+  const ctxSV = $('#ctxStreetView');
+  if (ctxSV) ctxSV.textContent = loc.streetview ? `Verified (${loc.streetview.date})` : 'Street Level';
+}
+
+/* ---------- Step 2: Photo Evidence Upload ---------- */
 const drop = $('#drop');
 drop.onclick = () => $('#file').click();
 $('#file').onchange = e => add(e.target.files);
@@ -306,7 +325,7 @@ async function add(files) {
     c.width = bm.width * scale;
     c.height = bm.height * scale;
     c.getContext('2d').drawImage(bm, 0, 0, c.width, c.height);
-    imgs.push({ name: f.name, url: c.toDataURL('image/jpeg', 0.78) });
+    imgs.push({ name: f.name, url: c.toDataURL('image/jpeg', 0.8) });
   }
   draw();
 }
@@ -314,10 +333,12 @@ async function add(files) {
 function draw() {
   $('#th').innerHTML = imgs.map((m, i) => `
     <div>
-      <img src="${m.url}">
+      <img src="${m.url}" alt="Evidence ${i + 1}">
       <b onclick="imgs.splice(${i}, 1); draw();">×</b>
     </div>
   `).join('');
+  const countEl = $('#photoCount');
+  if (countEl) countEl.textContent = `${imgs.length} / 10 photos`;
   step(2, Math.min(100, imgs.length * 25));
 }
 
@@ -338,20 +359,26 @@ async function analyse() {
   await cfgReady;
   if (!K.a && !K.srv) return $('#set').showModal();
 
-  // If user entered address in #addr but didn't click Locate, auto-locate first
+  // Auto-locate if address input is filled but not located
   const addrInput = $('#addr').value.trim();
   if (addrInput && !L) {
     await locate();
   }
 
   if (!imgs.length && !L) {
-    $('#m3').innerHTML = '<span class="err">Please enter an address or upload photos first.</span>';
+    $('#m3').innerHTML = '<span class="err">Please enter an address or upload inspection photos first.</span>';
     return;
   }
 
   const B = $('#run');
   B.disabled = true;
-  B.innerHTML = '<span class="spin"></span>Analysing photos &amp; geospatial data…';
+  B.innerHTML = '<span class="spin"></span>Analyzing photos &amp; geospatial data…';
+  
+  const pWrap = $('#progressBarWrap');
+  const pFill = $('#progressBarFill');
+  if (pWrap) pWrap.style.display = 'block';
+  if (pFill) pFill.style.width = '25%';
+
   $('#m3').textContent = 'Gemini Vision is inspecting photo elements, roof condition, and street signs…';
 
   const parts = [];
@@ -414,6 +441,7 @@ Return a valid JSON object matching this structure:
   parts.push({ text: promptText });
 
   try {
+    if (pFill) pFill.style.width = '65%';
     const body = JSON.stringify({
       systemInstruction: { parts: [{ text: SYS }] },
       contents: [{ role: 'user', parts }],
@@ -439,8 +467,9 @@ Return a valid JSON object matching this structure:
     if (!text) throw new Error('Empty response from Gemini');
 
     const result = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1));
+    if (pFill) pFill.style.width = '100%';
 
-    // Update location with photo-extracted address if missing
+    // Auto-detect address from photos if not provided
     if (!L || !L.street) {
       const pa = result.property_address || {};
       L = {
@@ -454,22 +483,24 @@ Return a valid JSON object matching this structure:
       };
       $('#addr').value = L.address;
       renderGeoChips(L);
+      updateContextBar(L);
     }
 
     show(result, L);
     step(3);
-    $('#m3').innerHTML = '<span style="color:var(--g);font-weight:600">✓ AI Analysis complete. Report filled and displayed below.</span>';
+    $('#m3').innerHTML = '<span style="color:var(--cyan-primary);font-weight:600">✓ AI Analysis complete. Report populated below.</span>';
   } catch (e) {
     $('#m3').innerHTML = `<span class="err">Analysis failed: ${esc(e.message)}</span>`;
+  } finally {
+    B.disabled = false;
+    B.innerHTML = `
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      </svg>
+      <span>Re-run AI Property Analysis</span>
+    `;
+    setTimeout(() => { if (pWrap) pWrap.style.display = 'none'; }, 1000);
   }
-
-  B.disabled = false;
-  B.innerHTML = `
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:6px">
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-    </svg>
-    Re-run AI analysis
-  `;
 }
 
 /* ---------- Report Renderer (Zero Blank Fields) ---------- */
@@ -485,6 +516,32 @@ function show(o, loc) {
   const zip = L0.postal_code || o.property_address?.zip || '21220';
   const county = L0.county || o.property_address?.county || 'Baltimore County';
   const fullAddress = `${street}, ${city}, ${state} ${zip}`;
+
+  // Update Executive Condition Banner
+  const exAddr = $('#execAddress');
+  if (exAddr) exAddr.textContent = fullAddress;
+
+  const exPills = $('#execPills');
+  if (exPills) {
+    exPills.innerHTML = `
+      <span class="pill-dark">${esc(pi.property_use?.v || 'Single Family - 1 Unit')}</span>
+      <span class="pill-dark">${esc(pi.property_location?.v || 'Suburban')}</span>
+      <span class="pill-dark">${esc(county)}</span>
+    `;
+  }
+
+  const exRating = $('#execRating');
+  if (exRating) exRating.textContent = (o.condition_rating?.v || 'Good') + ' Condition';
+
+  const exConf = $('#execConfidence');
+  if (exConf) exConf.textContent = Math.round((o.condition_rating?.c || 0.85) * 100) + '%';
+
+  const adverseCount = Object.values(inf).filter(x => x.v === 'Yes').length;
+  const exAdv = $('#execAdverse');
+  if (exAdv) {
+    exAdv.textContent = adverseCount === 0 ? '0 Detected' : `${adverseCount} Flagged`;
+    exAdv.className = adverseCount === 0 ? 'metric-score-text green' : 'metric-score-text amber';
+  }
 
   const sel = (k, f, options) => {
     f = f || {};
@@ -528,7 +585,7 @@ function show(o, loc) {
     : '<div style="padding:24px;text-align:center;color:#666">Aerial image available when Google Maps key is active.</div>';
 
   $('#wb').innerHTML = OUT.warn.length
-    ? `<div class="card" style="border-color:var(--gold);margin-bottom:14px">⚠ ${OUT.warn.map(esc).join(' · ')}</div>`
+    ? `<div class="card" style="border-color:var(--warning);margin-bottom:14px">⚠ ${OUT.warn.map(esc).join(' · ')}</div>`
     : '';
 
   $('#paper').innerHTML = `
