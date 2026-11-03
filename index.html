@@ -3,337 +3,363 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PropertyLens Pro — Next-Gen AI Property Intelligence & Appraisal Studio</title>
+  <title>PropertyLens — AI Property Condition Reports</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Top App Navigation Bar -->
-  <header class="app-header">
-    <div class="header-container">
-      <div class="brand">
-        <div class="logo-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+
+  <!-- Navigation Bar -->
+  <header id="nav">
+    <div class="wrap">
+      <a class="logo" href="#">
+        <span class="logo-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            <circle cx="12" cy="7" r="1.5" fill="currentColor"></circle>
           </svg>
-        </div>
-        <div class="brand-text">
-          <span class="brand-title">PropertyLens <span class="badge-pro">PRO</span></span>
-          <span class="brand-subtitle">AI Property Intelligence & Condition Appraisal</span>
-        </div>
-      </div>
-
-      <div class="header-actions">
-        <div class="status-indicator" id="systemStatus">
-          <span class="status-dot"></span>
-          <span class="status-label" id="statusText">System Ready</span>
-        </div>
-        <button class="btn-ghost keybtn" id="openSettingsBtn" onclick="$('#apiDialog').showModal()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        </span>
+        PropertyLens
+        <span class="badge-tag">AI</span>
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#app">Report tool</a>
+        <button class="keybtn" onclick="$('#set').showModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
-          API Settings
+          API Keys
         </button>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <!-- Main App Workspace -->
-  <main class="workspace">
-    <!-- Left Column: Input & Studio Controls -->
-    <aside class="studio-sidebar">
-      <!-- Step 1: Location & Geocoding -->
-      <div class="panel-card">
-        <div class="panel-header">
-          <div class="step-num">1</div>
-          <div>
-            <h3>Property Location</h3>
-            <p class="panel-desc">Enter address or cross-streets</p>
+  <!-- Hero Section -->
+  <section class="landing">
+    <div class="wrap">
+      <div class="landing-text">
+        <span class="eyebrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:4px">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          AI Property Intelligence
+        </span>
+        <h1>Property condition reports, <em>written in minutes.</em></h1>
+        <p class="lead">
+          Upload photos, add an address. PropertyLens reads inspection images, cross-checks Google Maps &amp; Street View, and fills the entire appraisal condition report with verifiable evidence and confidence scores.
+        </p>
+        <div class="cta">
+          <a class="btn" href="#app">
+            <span>Start a report</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a class="btn gh" href="#how">See how it works</a>
+        </div>
+      </div>
+
+      <!-- Animated Visual Property Card with Dynamic Inspection Badges -->
+      <div class="visual">
+        <div class="visual-card">
+          <svg viewBox="0 0 400 300" class="house-svg">
+            <defs>
+              <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#dbeafe"/>
+                <stop offset="60%" stop-color="#eff6ff"/>
+                <stop offset="100%" stop-color="#f8fafc"/>
+              </linearGradient>
+              <linearGradient id="roof" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1e293b"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="300" fill="url(#sk)"/>
+            <rect y="230" width="400" height="70" fill="#a7f3d0"/>
+            <polygon points="65,130 200,45 335,130" fill="url(#roof)"/>
+            <rect x="90" y="130" width="220" height="110" fill="#ffffff" rx="2" stroke="#e2e8f0" stroke-width="2"/>
+            <rect x="115" y="155" width="48" height="48" fill="#bae6fd" stroke="#0284c7" stroke-width="2" rx="4"/>
+            <line x1="139" y1="155" x2="139" y2="203" stroke="#0284c7" stroke-width="2"/>
+            <line x1="115" y1="179" x2="163" y2="179" stroke="#0284c7" stroke-width="2"/>
+            <rect x="235" y="155" width="48" height="48" fill="#bae6fd" stroke="#0284c7" stroke-width="2" rx="4"/>
+            <line x1="259" y1="155" x2="259" y2="203" stroke="#0284c7" stroke-width="2"/>
+            <line x1="235" y1="179" x2="283" y2="179" stroke="#0284c7" stroke-width="2"/>
+            <rect x="180" y="170" width="40" height="70" fill="#0284c7" rx="3"/>
+            <circle cx="212" cy="205" r="3" fill="#ffffff"/>
+            <circle cx="48" cy="195" r="32" fill="#34d399"/>
+            <rect x="44" y="215" width="8" height="35" fill="#78350f" rx="2"/>
+          </svg>
+
+          <!-- Floating Inspection Badges -->
+          <div class="tag t1">
+            <span class="tag-title">Roof covering</span>
+            <small class="ok">Architectural Shingles · 92% confidence</small>
+          </div>
+          <div class="tag t2">
+            <span class="tag-title">Walls &amp; Siding</span>
+            <small class="ok">Good Condition · 95% confidence</small>
+          </div>
+          <div class="tag t3">
+            <span class="tag-title">📍 Google Maps Verified</span>
+            <small>Coordinates &amp; Street View matched</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Counter Stats Bar -->
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat-item">
+        <b data-n="30" data-s="+">0</b>
+        <span>Form fields auto-filled</span>
+      </div>
+      <div class="stat-item">
+        <b data-n="7">0</b>
+        <span>Location data sources</span>
+      </div>
+      <div class="stat-item">
+        <b data-n="10" data-s=" max">0</b>
+        <span>Photos per report</span>
+      </div>
+      <div class="stat-item">
+        <b data-n="100" data-s="%">0</b>
+        <span>Evidence-cited answers</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <section class="s" id="features">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="section-label">Enterprise-Grade Features</span>
+        <h2>Built for careful, defensible assessments</h2>
+        <p>Every answer carries verified evidence and confidence scoring. Anything unseen stays "Unknown" rather than guessed.</p>
+      </div>
+      <div class="grid3">
+        <div class="feat rv">
+          <div class="ic">📷</div>
+          <h3>Multimodal Vision</h3>
+          <p>Gemini Vision inspects roofs, walls, cracks, moisture, windows, doors, and electrical/utility fixtures across every photo you upload.</p>
+        </div>
+        <div class="feat rv">
+          <div class="ic">🗺️</div>
+          <h3>Maps Intelligence</h3>
+          <p>Geocoding, elevation, nearby amenities, satellite imagery, and Street View enrich the report with verifiable location context.</p>
+        </div>
+        <div class="feat rv">
+          <div class="ic">🎯</div>
+          <h3>Confidence Scoring</h3>
+          <p>Every item carries a confidence score. Low-confidence findings are flagged in amber so the inspector knows exactly what to verify on site.</p>
+        </div>
+        <div class="feat rv">
+          <div class="ic">🔀</div>
+          <h3>Cross-Referenced Sources</h3>
+          <p>Subject photos are cross-referenced with Google satellite and street imagery to detect discrepancies and verify structural orientation.</p>
+        </div>
+        <div class="feat rv">
+          <div class="ic">✏️</div>
+          <h3>Live Editable Grid</h3>
+          <p>Every field, rating, and explanation is fully editable in the browser. You retain complete control over the finalized report.</p>
+        </div>
+        <div class="feat rv">
+          <div class="ic">📄</div>
+          <h3>Export Anywhere</h3>
+          <p>Download clean, structured JSON for your appraisal database or print a pixel-perfect USPAP-compliant PDF condition report.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="s" id="how">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="section-label">Workflow</span>
+        <h2>Three steps to a finished report</h2>
+        <p>From photos and address to a certified property condition report in sixty seconds.</p>
+      </div>
+      <div class="grid3 steps">
+        <div class="feat rv step-card">
+          <div class="step-badge">Step 1</div>
+          <h3>Locate</h3>
+          <p>Enter the property address. We pull coordinates, elevation, nearby amenities, satellite maps, and street-level imagery.</p>
+        </div>
+        <div class="feat rv step-card">
+          <div class="step-badge">Step 2</div>
+          <h3>Upload</h3>
+          <p>Add exterior, street, roof, and defect photos. Photos are preprocessed and compressed client-side instantly.</p>
+        </div>
+        <div class="feat rv step-card">
+          <div class="step-badge">Step 3</div>
+          <h3>Review &amp; Export</h3>
+          <p>Review the AI-filled Fannie Mae condition grid, adjust any values or notes, and export or print your PDF report.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Report Studio App Section -->
+  <section class="s" id="app">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="section-label">Inspection Studio</span>
+        <h2>Create a condition report</h2>
+        <p>Work top to bottom. It takes about a minute.</p>
+      </div>
+
+      <!-- Step Progress Rail -->
+      <div class="rail">
+        <div><i id="p1"></i></div>
+        <div><i id="p2"></i></div>
+        <div><i id="p3"></i></div>
+      </div>
+
+      <!-- App Grid: Left Controls + Right Live Map -->
+      <div class="appgrid">
+        <div class="app-controls">
+          <!-- Step 1: Locate Property -->
+          <div class="card">
+            <h2><span>1</span>Locate the property</h2>
+            <div class="row">
+              <input id="addr" placeholder="e.g. 7 Fern Pl, Middle River, MD" autocomplete="off">
+              <button id="go" onclick="locate()">Locate</button>
+            </div>
+            <div class="msg" id="m1"></div>
+            <div class="chips" id="geo"></div>
+          </div>
+
+          <!-- Step 2: Upload Photos -->
+          <div class="card">
+            <h2><span>2</span>Upload property photos</h2>
+            <div class="drop" id="drop">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin-bottom:6px">
+                <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <div>Drag &amp; drop or click to add photos</div>
+              <small>Street sign, front facade, exterior, street view, defects (up to 10)</small>
+            </div>
+            <input type="file" id="file" accept="image/*" multiple hidden>
+            <div class="thumbs" id="th"></div>
+            <div class="msg">Photos are analyzed by Google Gemini Vision. Never upload images you are not authorized to share.</div>
+          </div>
+
+          <!-- Step 3: Analyze & Fill Form -->
+          <div class="card">
+            <h2><span>3</span>Analyse &amp; fill the form</h2>
+            <textarea id="note" rows="2" placeholder="Optional inspector notes (e.g. 'Drive-by appraisal, built ~1942, exterior only')"></textarea>
+            <button id="run" style="margin-top:14px;width:100%" onclick="analyse()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:6px">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              Run AI analysis
+            </button>
+            <div class="msg" id="m3"></div>
           </div>
         </div>
 
-        <div class="address-input-wrapper">
-          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <input id="addr" type="text" placeholder="e.g. 7 Fern Pl, Middle River, MD" autocomplete="off" />
-          <button id="go" class="btn-locate" onclick="locate()">
-            <span>Locate</span>
+        <!-- Right Side: Interactive Map & Street View Container -->
+        <div class="app-map-panel">
+          <div class="map-card">
+            <div class="tabs">
+              <button class="gh active" id="tabSat" onclick="mt('hybrid')">Satellite</button>
+              <button class="gh" id="tabRoad" onclick="mt('roadmap')">Street Map</button>
+              <button class="gh" id="tabSV" onclick="sv()">Street View</button>
+            </div>
+            <div id="map" class="map-viewport"></div>
+            <div class="map-caption" id="mapCaption">Live Google Maps geospatial frame</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Generated Report Paper Section -->
+  <section id="report">
+    <div class="wrap">
+      <div id="wb" class="noprint"></div>
+      
+      <div class="noprint report-actions">
+        <div class="report-meta">
+          <span class="report-status-badge">✓ AI Analysis Completed</span>
+          <span class="report-hint">Every entry below is editable before printing or exporting.</span>
+        </div>
+        <div class="action-buttons">
+          <button onclick="exp()" class="btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export JSON
+          </button>
+          <button class="btn" onclick="printReport()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print / Save PDF
           </button>
         </div>
-
-        <div id="m1" class="status-msg"></div>
-
-        <!-- Location Intelligence Badges -->
-        <div class="geo-chips-container" id="geo"></div>
       </div>
 
-      <!-- Step 2: Upload Property Photos -->
-      <div class="panel-card">
-        <div class="panel-header">
-          <div class="step-num">2</div>
-          <div>
-            <h3>Inspection Imagery</h3>
-            <p class="panel-desc">Front, street signs, roof, exterior & defects</p>
-          </div>
-          <span class="photo-counter" id="photoCount">0 / 10 photos</span>
-        </div>
+      <div class="paper" id="paper"></div>
+    </div>
+  </section>
 
-        <div class="dropzone" id="drop">
-          <div class="dropzone-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
-              <circle cx="8.5" cy="8.5" r="1.5"></circle>
-              <polyline points="21 15 16 10 5 21"></polyline>
-            </svg>
-          </div>
-          <p class="dropzone-text"><strong>Click to upload</strong> or drag & drop</p>
-          <span class="dropzone-hint">Supports JPEG, PNG, WEBP (auto-compressed)</span>
-        </div>
-        <input type="file" id="file" accept="image/*" multiple hidden>
-
-        <!-- Thumbnails Gallery -->
-        <div class="thumbnail-grid" id="th"></div>
-      </div>
-
-      <!-- Step 3: Inspection Context & Analysis Runner -->
-      <div class="panel-card">
-        <div class="panel-header">
-          <div class="step-num">3</div>
-          <div>
-            <h3>AI Inspection Run</h3>
-            <p class="panel-desc">Add field notes and run Multimodal Gemini</p>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label for="note">Field Notes & Observations (Optional)</label>
-          <textarea id="note" rows="2" placeholder="e.g. 'Drive-by inspection, exterior only, built ~1942'"></textarea>
-        </div>
-
-        <button id="run" class="btn-primary btn-run" onclick="analyse()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-          </svg>
-          <span>Run AI Property Analysis</span>
-        </button>
-
-        <div id="m3" class="status-msg"></div>
-
-        <!-- Multi-stage progress indicators -->
-        <div class="progress-bar-wrap" id="progressBarWrap" style="display: none;">
-          <div class="progress-bar-fill" id="progressBarFill"></div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Right Column: Interactive Dashboard & Reports -->
-    <section class="dashboard-viewport">
-      <!-- Empty Placeholder State -->
-      <div class="placeholder-state" id="placeholderView">
-        <div class="placeholder-content">
-          <div class="placeholder-illustration">
-            <div class="radar-scan"></div>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div>
+        <a class="logo" href="#">
+          <span class="logo-mark">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
-          </div>
-          <h2>Interactive AI Dashboard</h2>
-          <p>Enter an address or upload inspection photos on the left, then click <strong>Run AI Property Analysis</strong> to generate your comprehensive condition report.</p>
-          <div class="quick-tips">
-            <div class="tip-pill"><span>📍</span> Auto-geocoding & Street View</div>
-            <div class="tip-pill"><span>🔍</span> Gemini Vision defect detection</div>
-            <div class="tip-pill"><span>📋</span> Instant Fannie Mae Form auto-fill</div>
-          </div>
-        </div>
+          </span>
+          PropertyLens
+        </a>
+        <p>AI-assisted property drafts. Prepared for appraisal data collectors, lenders, and inspectors.</p>
       </div>
-
-      <!-- Live Dashboard Container (Shown when analysis completes) -->
-      <div class="report-dashboard" id="reportDashboard" style="display: none;">
-        <!-- Top Executive Summary Bar -->
-        <div class="exec-summary-card">
-          <div class="summary-left">
-            <div class="property-headline">
-              <span class="sub-label">Verified Subject Property</span>
-              <h2 id="sumAddress">Loading...</h2>
-              <div class="address-tags" id="sumTags"></div>
-            </div>
-          </div>
-
-          <div class="summary-metrics">
-            <!-- Radial Condition Score Gauge -->
-            <div class="gauge-card">
-              <div class="radial-gauge">
-                <svg viewBox="0 0 100 100">
-                  <circle class="gauge-bg" cx="50" cy="50" r="42"></circle>
-                  <circle class="gauge-bar" id="gaugeCircle" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="50"></circle>
-                </svg>
-                <div class="gauge-number">
-                  <span id="gaugeRatingText">Good</span>
-                  <small id="gaugeScore">85%</small>
-                </div>
-              </div>
-              <div class="gauge-info">
-                <span class="gauge-label">Condition Rating</span>
-                <span class="gauge-status" id="gaugeStatusText">Drive-by Verified</span>
-              </div>
-            </div>
-
-            <div class="metric-mini-card">
-              <span class="mini-label">Confidence Index</span>
-              <span class="mini-val" id="metricConfidence">92%</span>
-              <span class="mini-sub">Evidence Backed</span>
-            </div>
-
-            <div class="metric-mini-card">
-              <span class="mini-label">Adverse Factors</span>
-              <span class="mini-val text-ok" id="metricAdverse">0 Detected</span>
-              <span class="mini-sub">Neighborhood Scan</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Dashboard Tabs & Controls -->
-        <div class="dashboard-controls">
-          <div class="tabs-nav">
-            <button class="tab-btn active" onclick="switchTab('tabInteractive')">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-              Executive Insights
-            </button>
-            <button class="tab-btn" onclick="switchTab('tabAppraisal')">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              FNMA Appraisal Form
-            </button>
-            <button class="tab-btn" onclick="switchTab('tabMaps')">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-              Geospatial & Imagery
-            </button>
-            <button class="tab-btn" onclick="switchTab('tabPhotos')">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-              Photo Catalog (<span id="tabPhotoCount">0</span>)
-            </button>
-          </div>
-
-          <div class="action-buttons">
-            <button class="btn-secondary" onclick="exp()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              Export JSON
-            </button>
-            <button class="btn-primary" onclick="printReport()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-              Print / Save PDF
-            </button>
-          </div>
-        </div>
-
-        <!-- Warnings / Low Confidence Banner -->
-        <div id="wb" class="warning-banner"></div>
-
-        <!-- TAB 1: Modern Interactive Executive Insights -->
-        <div id="tabInteractive" class="tab-pane active">
-          <div class="insights-grid">
-            <!-- Property Details Card -->
-            <div class="insight-card">
-              <div class="card-title">
-                <span class="icon">🏠</span>
-                <h4>Property Structure & Condition</h4>
-              </div>
-              <div class="metrics-list" id="structureMetrics"></div>
-            </div>
-
-            <!-- Neighborhood & Environmental Influences Card -->
-            <div class="insight-card">
-              <div class="card-title">
-                <span class="icon">🌳</span>
-                <h4>Neighborhood & Site Influences</h4>
-              </div>
-              <div class="metrics-list" id="influenceMetrics"></div>
-            </div>
-
-            <!-- Inspector Comments & Findings -->
-            <div class="insight-card full-width">
-              <div class="card-title">
-                <span class="icon">✍️</span>
-                <h4>Synthesized Condition Findings</h4>
-              </div>
-              <div class="comment-box">
-                <h5>General Condition Comments</h5>
-                <p id="insightComments">Loading...</p>
-              </div>
-              <div class="comment-box" id="insightRepairsBox">
-                <h5>Required Repairs & Hazard Explanations</h5>
-                <p id="insightRepairs">None required.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 2: Complete FNMA-Compliant Appraisal Form -->
-        <div id="tabAppraisal" class="tab-pane">
-          <div class="paper-container">
-            <div class="paper" id="paper"></div>
-          </div>
-        </div>
-
-        <!-- TAB 3: Geospatial & Maps View -->
-        <div id="tabMaps" class="tab-pane">
-          <div class="maps-dashboard">
-            <div class="map-toolbar">
-              <button class="map-btn active" onclick="mt('hybrid')">Satellite</button>
-              <button class="map-btn" onclick="mt('roadmap')">Street Map</button>
-              <button class="map-btn" onclick="sv()">Street View</button>
-            </div>
-            <div id="map" class="live-map-frame"></div>
-            <div class="static-maps-comparison" id="staticMapsComparison"></div>
-          </div>
-        </div>
-
-        <!-- TAB 4: Photo Catalog & Labels -->
-        <div id="tabPhotos" class="tab-pane">
-          <div class="photo-catalog-grid" id="photoCatalogGrid"></div>
-        </div>
+      <div class="footer-links">
+        <span>© PropertyLens Intelligence</span>
+        <span>Consistent with Fannie Mae &amp; USPAP Exterior Standards</span>
       </div>
-    </section>
-  </main>
-
-  <!-- API Keys Settings Modal Dialog -->
-  <dialog id="apiDialog" class="modal-dialog">
-    <div class="dialog-header">
-      <h3>API Configuration</h3>
-      <button class="btn-close" onclick="$('#apiDialog').close()">✕</button>
     </div>
-    <div class="dialog-body">
-      <p class="dialog-hint">
-        Keys entered here are stored in your browser's <code>localStorage</code>. For production, set <code>GOOGLE_MAPS_API_KEY</code> and <code>GEMINI_API_KEY</code> on Vercel.
+  </footer>
+
+  <!-- API Keys Modal Dialog -->
+  <dialog id="set">
+    <div class="dialog-inner">
+      <h2>API Configuration</h2>
+      <p class="msg">
+        Keys entered here are stored locally in your browser. For automated server deployments, set <code>GOOGLE_MAPS_API_KEY</code> and <code>GEMINI_API_KEY</code> in your Vercel project environment variables.
       </p>
-
-      <div class="field-group">
-        <label for="ak">Google Gemini API Key</label>
-        <input id="ak" type="password" placeholder="AIzaSy..." />
-        <small><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a free Gemini API Key</a></small>
+      
+      <label for="ak">Gemini API Key (free at aistudio.google.com/apikey)</label>
+      <input id="ak" type="password" placeholder="AIzaSy…">
+      
+      <label for="gk">Google Maps API Key (Maps JS, Places, Geocoding, Elevation, Static Maps, Street View)</label>
+      <input id="gk" type="password" placeholder="AIzaSy…">
+      
+      <label for="mk">Gemini Model</label>
+      <input id="mk" type="text" placeholder="gemini-2.5-flash">
+      
+      <div class="row" style="margin-top:20px;justify-content:flex-end">
+        <button class="gh" onclick="$('#set').close()">Cancel</button>
+        <button onclick="saveK()">Save &amp; Apply</button>
       </div>
-
-      <div class="field-group">
-        <label for="gk">Google Maps API Key</label>
-        <input id="gk" type="password" placeholder="AIzaSy..." />
-        <small>Needs: Maps JS, Places, Geocoding, Elevation, Static Maps, Street View</small>
-      </div>
-
-      <div class="field-group">
-        <label for="mk">Gemini Model</label>
-        <input id="mk" type="text" placeholder="gemini-2.5-flash" />
-      </div>
-    </div>
-    <div class="dialog-footer">
-      <button class="btn-secondary" onclick="$('#apiDialog').close()">Cancel</button>
-      <button class="btn-primary" onclick="saveK()">Save & Apply</button>
     </div>
   </dialog>
 
