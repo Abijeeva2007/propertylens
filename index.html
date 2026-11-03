@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PropertyLens — AI Property Condition Reports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head><body>
+<header id="nav"><div class="wrap"><a class="logo" href="#"><i>P</i>PropertyLens</a>
+<nav><a href="#features">Features</a><a href="#how">How it works</a><a href="#app">Report tool</a><button class="keybtn" onclick="$('#set').showModal()">API Keys</button></nav></div></header>
+
+<section class="landing"><div class="wrap"><div>
+<span class="eyebrow">AI property intelligence</span>
+<h1>Property condition reports, <em>written in minutes.</em></h1>
+<p class="lead">Upload photos, add an address. PropertyLens reads the images, cross-checks Google Maps and Street View, and fills the entire condition form with evidence and confidence scores.</p>
+<div class="cta"><a class="btn" href="#app">Start a report</a><a class="btn gh" href="#how">See how it works</a></div></div>
+<div class="visual"><svg viewBox="0 0 400 300"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe8f1"/><stop offset="1" stop-color="#f6ecd6"/></linearGradient></defs><rect width="400" height="300" fill="url(#sk)"/><rect y="230" width="400" height="70" fill="#9fc79a"/><polygon points="70,130 200,50 330,130" fill="#0f1f3d"/><rect x="95" y="130" width="210" height="110" fill="#f3ebdc"/><rect x="120" y="155" width="46" height="46" fill="#9cc5d6" stroke="#0f1f3d" stroke-width="3"/><rect x="234" y="155" width="46" height="46" fill="#9cc5d6" stroke="#0f1f3d" stroke-width="3"/><rect x="180" y="170" width="40" height="70" fill="#0f766e"/><circle cx="52" cy="200" r="30" fill="#6fae73"/><rect x="48" y="220" width="8" height="30" fill="#6b4a2b"/></svg>
+<div class="tag t1">Roof covering<small class="wn">Fair · 82% confidence</small></div><div class="tag t2">Walls &amp; paint<small class="ok">Good · 91% confidence</small></div><div class="tag t3">📍 Street View cross-check<small>3 frames matched</small></div></div></div></section>
+
+<div class="stats"><div class="wrap"><div><b data-n="30" data-s="+">0</b><span>Form fields auto-filled</span></div><div><b data-n="7">0</b><span>Location data sources</span></div><div><b data-n="14">0</b><span>Photos per report</span></div><div><b data-n="100" data-s="%">0</b><span>Evidence-cited answers</span></div></div></div>
+
+<section class="s" id="features"><div class="wrap"><div class="head rv"><h2>Built for careful, defensible assessments</h2><p>Every answer carries its evidence and a confidence score. Anything unseen stays "Unknown" rather than guessed.</p></div>
+<div class="grid3"><div class="feat rv"><div class="ic">📷</div><h3>Vision analysis</h3><p>A vision-language model inspects roofs, walls, cracks, moisture, fixtures and systems across every photo you upload.</p></div>
+<div class="feat rv"><div class="ic">🗺️</div><h3>Maps intelligence</h3><p>Geocoding, elevation, nearby amenities, satellite and Street View imagery enrich the report with location context.</p></div>
+<div class="feat rv"><div class="ic">🎯</div><h3>Confidence scoring</h3><p>Low-confidence items are flagged "Verify on site" so an inspector knows exactly where to look.</p></div>
+<div class="feat rv"><div class="ic">🔀</div><h3>Source cross-checking</h3><p>Photos are compared with Google imagery; disagreements lower confidence and are reported.</p></div>
+<div class="feat rv"><div class="ic">✏️</div><h3>Editable form</h3><p>Change any value or rating before you finish. You stay in control of the final report.</p></div>
+<div class="feat rv"><div class="ic">📄</div><h3>Export anywhere</h3><p>Download JSON for your systems or print a clean PDF report.</p></div></div></div></section>
+
+<section class="s" id="how" style="background:#f2eee5"><div class="wrap"><div class="head rv"><h2>Three steps to a finished report</h2></div>
+<div class="grid3 steps"><div class="feat rv"><h3>Locate</h3><p>Enter the address. We pull map, elevation, amenities and street-level imagery.</p></div><div class="feat rv"><h3>Upload</h3><p>Add exterior, interior and defect photos. Drag, drop, done.</p></div><div class="feat rv"><h3>Review</h3><p>Check flagged fields, adjust, then export your condition report.</p></div></div></div></section>
+
+<section class="s" id="app"><div class="wrap"><div class="head rv"><h2>Create a condition report</h2><p>Work top to bottom. It takes about a minute.</p></div>
+<div class="rail"><div><i id="p1"></i></div><div><i id="p2"></i></div><div><i id="p3"></i></div></div>
+<div class="appgrid"><div>
+<div class="card"><h2><span>1</span>Locate the property</h2><div class="row"><input id="addr" placeholder="Enter full property address"><button id="go" onclick="locate()">Locate</button></div><div class="msg" id="m1"></div><div class="chips" id="geo" style="margin-top:10px"></div></div>
+<div class="card"><h2><span>2</span>Upload property photos</h2><div class="drop" id="drop">Drag &amp; drop or click to add photos<br><small>Exterior, roof, rooms, kitchen, bathrooms, panels, defects (up to 10)</small></div><input type="file" id="file" accept="image/*" multiple hidden><div class="thumbs" id="th"></div><div class="msg">Photos are sent to Google Gemini for analysis. Don't upload images you aren't allowed to share.</div></div>
+<div class="card"><h2><span>3</span>Analyse &amp; fill the form</h2><textarea id="note" rows="2" placeholder="Optional notes (e.g. 'built 1998, roof replaced 2015')"></textarea><button id="run" style="margin-top:12px;width:100%" onclick="analyse()">Run AI analysis</button><div class="msg" id="m3"></div></div></div>
+<div><div class="tabs"><button class="gh" onclick="mt('hybrid')">Satellite</button><button class="gh" onclick="mt('roadmap')">Map</button><button class="gh" onclick="sv()">Street View</button></div><div id="map"></div></div></div></div></section>
+
+<section id="report"><div class="wrap"><div id="wb" class="noprint"></div><div class="noprint row" style="margin-bottom:14px"><button onclick="exp()">Export JSON</button><button class="gh" onclick="print()">Print / PDF</button></div><div class="paper" id="paper"></div></div></section>
+
+<footer><div class="wrap"><div><a class="logo" href="#"><i>P</i>PropertyLens</a><p>AI-assisted drafts. Not a substitute for a licensed inspection.</p></div><div>© PropertyLens</div></div></footer>
+
+<dialog id="set"><h2>API keys</h2><p class="msg">Stored only in this browser. Free-tier Gemini may use prompts to improve Google products, so avoid sending private client photos on the free tier. Maps needs: Maps JavaScript, Geocoding, Places, Elevation, Static Maps, Street View Static.</p>
+<label>Gemini API key (free at aistudio.google.com/apikey)</label><input id="ak" type="password" placeholder="AIza…"><label>Google Maps API key</label><input id="gk" type="password" placeholder="AIza…"><label>Model</label><input id="mk">
+<div class="row" style="margin-top:18px"><button onclick="saveK()">Save</button><button class="gh" onclick="$('#set').close()">Cancel</button></div></dialog>
+<script src="js/app.js"></script></body></html>

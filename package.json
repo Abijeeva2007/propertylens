@@ -1,0 +1,21 @@
+{
+  "name": "propertylens",
+  "version": "1.0.0",
+  "description": "AI Property Condition Reports with Google Maps and Gemini Multimodal AI",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "serve ."
+  },
+  "keywords": [
+    "propertylens",
+    "real-estate",
+    "gemini",
+    "google-maps",
+    "inspection-reports",
+    "proptech"
+  ],
+  "author": "Abijeeva",
+  "license": "MIT"
+}
